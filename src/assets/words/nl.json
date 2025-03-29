@@ -1,0 +1,23 @@
+{
+  "sporters": {
+    "voetballers": [
+      "Klaas-Jan Huntelaar"
+    ],
+    "basketballers": [
+      "Micheal jordan"
+    ],
+    "tennissers": [
+      "Novak Djokovic"
+    ]
+  },
+  "eten": {
+    "fruit": [
+      "Banaan",
+      "Appel"
+    ],
+    "groente": [
+      "Wortel",
+      "Tomaat"
+    ]
+  }
+}
