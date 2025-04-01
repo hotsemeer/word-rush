@@ -125,8 +125,8 @@ function start() {
       </div> -->
 
       <div class="space-y-4">
-        <Button @click="game.newGame.addTeam()"> Add Team </Button>
-        <Button @click="start" variant="success"> Start Game </Button>
+        <Button class="w-full" @click="game.newGame.addTeam()"> Add Team </Button>
+        <Button class="w-full" @click="start" variant="success"> Start Game </Button>
       </div>
     </div>
   </GameMenu>

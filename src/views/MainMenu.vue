@@ -10,13 +10,13 @@ const game = useGameStore()
   <GameMenu title="Word Rush">
     <menu class="mt-10 text-3xl">
       <RouterLink :to="{ name: 'new' }">
-        <Button variant="success">New game</Button>
+        <Button class="w-full" variant="success">New game</Button>
       </RouterLink>
       <RouterLink v-if="game.currentGame" :to="{ name: 'play' }">
-        <Button>Continue game</Button>
+        <Button class="w-full">Continue game</Button>
       </RouterLink>
       <RouterLink :to="{ name: 'settings' }">
-        <Button>settings</Button>
+        <Button class="w-full">settings</Button>
       </RouterLink>
     </menu>
   </GameMenu>

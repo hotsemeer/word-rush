@@ -5,6 +5,7 @@ import { computed, ref } from 'vue'
 import { useGameStore } from '@/stores/game'
 import { xor } from 'lodash-es'
 import { Check } from 'lucide-vue-next'
+import Button from '@/ui/Button.vue'
 
 const { currentGame } = useGameStore()
 

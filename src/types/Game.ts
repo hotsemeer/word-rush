@@ -1,9 +1,8 @@
-import { flatten, flattenDeep, random } from "lodash-es";
+import { clone, flatten, flattenDeep, random } from "lodash-es";
 import { GameState } from "./GameState";
 import { Team } from "./Team";
 import type { Turn } from "./Turn";
-import allWords from '@/assets/words/nl.json'
-import { flattenWords } from "@/utils/flattenWords";
+import { words as allWords } from '@/assets/words/index'
 
 export class Game {
   words: number = 5
@@ -61,15 +60,13 @@ export class Game {
 
   generateWords(amount: number) {
     console.log(allWords)
-    const flattened = flattenWords(allWords)
     const words = []
+    const remainingWords = allWords()
 
-    console.log(flattened)
     while (words.length < amount) {
-      const index = random(0, flattened.length)
-      words.push(flattened[index])
-      console.log(flattened[index])
-      flattened.splice(index, 1)
+      const index = random(0, remainingWords.length - 1)
+      words.push(remainingWords[index])
+      remainingWords.splice(index, 1)
     }
 
     return words
