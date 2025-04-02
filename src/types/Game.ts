@@ -1,4 +1,4 @@
-import { clone, flatten, flattenDeep, random } from "lodash-es";
+import { clone, cloneDeep, flatten, flattenDeep, random } from "lodash-es";
 import { GameState } from "./GameState";
 import { Team } from "./Team";
 import type { Turn } from "./Turn";
@@ -59,11 +59,14 @@ export class Game {
   }
 
   generateWords(amount: number) {
-    console.log(allWords)
     const words = []
-    const remainingWords = allWords()
+    const remainingWords = cloneDeep(allWords)
 
     while (words.length < amount) {
+      if (!remainingWords.length) {
+        throw new Error('Not enough available words')
+      }
+
       const index = random(0, remainingWords.length - 1)
       words.push(remainingWords[index])
       remainingWords.splice(index, 1)

@@ -3,8 +3,8 @@ export default {
   content: ['./index.html', './src/**/*.{ts,vue}'],
   theme: {
     fontFamily: {
-      sans: ['Permanent Marker', 'sans-serif'],
-      serif: ['Permanent Marker', 'serif'],
+      sans: ['Bungee', 'sans-serif'],
+      serif: ['Fredericka the Great', 'serif'],
     },
     extend: {},
   },

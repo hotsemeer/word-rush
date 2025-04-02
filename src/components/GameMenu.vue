@@ -25,7 +25,7 @@ defineProps({
         >
           <ArrowLeft :size="32" />
         </RouterLink>
-        <h1 class="text-3xl font-bold text-center">{{ title }}</h1>
+        <h1 class="text-3xl font-bold text-center font-serif">{{ title }}</h1>
       </div>
 
       <div class="p-6 space-y-4">

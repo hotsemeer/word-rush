@@ -6,9 +6,9 @@ try {
 } catch (e) {
   categories = await import('./words-en-US.json', { with: { type: 'json' }})
 }
-console.log(categories)
-const words = () => flattenWords(categories)
-console.log(words())
+
+categories = categories.default as Record<string, object | string[]>
+const words = flattenWords(categories)
 
 console.log(Intl.DateTimeFormat().resolvedOptions().locale)
 export { words, categories }
