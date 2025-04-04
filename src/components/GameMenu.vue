@@ -21,11 +21,11 @@ defineProps({
         <RouterLink
           v-if="route.name !== 'mainMenu'"
           :to="{ name: 'mainMenu' }"
-          class="absolute left-4 top-1/2 -translate-y-1/2 hover:bg-blue-500 p-2 rounded-full transition-colors"
+          class="absolute left-4 top-1/2 -translate-y-1/2 hover:bg-blue-500 shadow-md shadow-md-blue-300 p-2 rounded-full transition-colors focus:bg-blue-500 focus:shadow-md focus:shadow-blue-400"
         >
           <ArrowLeft :size="32" />
         </RouterLink>
-        <h1 class="text-3xl font-bold text-center font-serif">{{ title }}</h1>
+        <h1 class="text-3xl text-center font-serif">{{ title }}</h1>
       </div>
 
       <div class="p-6 space-y-4">

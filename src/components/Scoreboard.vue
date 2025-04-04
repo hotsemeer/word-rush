@@ -21,7 +21,7 @@ const { currentGame } = useGameStore()
         <span>{{ team.points }}</span>
       </div>
 
-      <button @click="currentGame!.nextState()">Volgende</button>
+      <button @click="currentGame!.nextState()">Next</button>
     </div>
   </GameMenu>
 </template>

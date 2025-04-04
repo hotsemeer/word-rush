@@ -7,7 +7,7 @@ export class Team {
   turns: Turn[] = []
 
   get points() {
-    return 0
+    return this.turns.reduce((total, turn) => total + turn.guessed.length, 0)
   }
 
   constructor(name: string, players: string[]) {

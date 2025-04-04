@@ -4,7 +4,7 @@ export default {
   theme: {
     fontFamily: {
       sans: ['Bungee', 'sans-serif'],
-      serif: ['Fredericka the Great', 'serif'],
+      serif: ['Black Ops One', 'serif'],
     },
     extend: {},
   },

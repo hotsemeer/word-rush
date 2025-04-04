@@ -8,7 +8,7 @@ const game = useGameStore()
 
 <template>
   <GameMenu title="Word Rush">
-    <menu class="mt-10 text-3xl">
+    <menu class="text-3xl">
       <RouterLink :to="{ name: 'new' }">
         <Button class="w-full" variant="success">New game</Button>
       </RouterLink>

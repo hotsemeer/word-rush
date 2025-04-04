@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import GameMenu from './GameMenu.vue'
-import ProgressBar from './ProgressBar.vue'
+import ProgressBar from '../ui/ProgressBar.vue'
 import { computed, ref } from 'vue'
 import { useGameStore } from '@/stores/game'
 import { xor } from 'lodash-es'
@@ -11,11 +11,9 @@ const { currentGame } = useGameStore()
 
 const duration = ref(3)
 const timeLeft = ref(duration.value)
-const guessed = ref<string[]>([])
 
 function selectWord(word: string): void {
-  guessed.value = xor(guessed.value, [word])
-  console.log(guessed.value)
+  currentGame!.currentTurn!.guessed = xor(guessed.value, [word])
 }
 
 function runTimer() {
@@ -32,6 +30,7 @@ function runTimer() {
 runTimer()
 
 const words = computed(() => currentGame!.currentTurn!.words)
+const guessed = computed(() => currentGame!.currentTurn!.guessed)
 </script>
 
 <template>
