@@ -19,8 +19,9 @@ function start() {
 <template>
   <GameMenu title="New game">
     <div class="text-3xl">
-      <div
-        class="bg-blue-50 hover:bg-blue-100 rounded-lg p-4 flex flex-col shadow-sm mb-5 cursor-pointer"
+      <component
+        :is="editingTeam === team ? 'div' : 'button'"
+        class="bg-blue-50 hover:bg-blue-100 focus:bg-blue-100 rounded-lg p-4 flex flex-col w-full shadow-sm mb-5 cursor-pointer"
         v-for="(team, teamIndex) in game.newGame.teams"
         :key="team.name"
         @click="editingTeam = team"
@@ -45,14 +46,14 @@ function start() {
               <input
                 v-else
                 v-model="team.name"
-                class="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                class="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all dark:bg-gray-700"
               />
             </div>
           </div>
 
           <button
             @click="game.newGame.teams.splice(teamIndex, 1)"
-            class="text-red-500 hover:bg-red-50 p-2 rounded-full transition-colors group"
+            class="text-gray-500 hover:bg-red-50 p-2 rounded-full transition-colors group focus:text-red-500 focus:shadow-lg"
           >
             <X />
           </button>
@@ -66,7 +67,7 @@ function start() {
           >
             <div class="flex-grow">
               <input
-                class="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                class="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all dark:bg-gray-700"
                 v-model="team.players[index]"
                 placeholder="Enter player name"
               />
@@ -87,7 +88,7 @@ function start() {
             <span>New Player</span>
           </button>
         </div>
-      </div>
+      </component>
 
       <!-- old -->
       <!-- <div

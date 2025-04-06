@@ -3,7 +3,9 @@ import { ref } from 'vue'
 import { RouterView } from 'vue-router'
 import { useMagicKeys, whenever } from '@vueuse/core'
 import { useGameStore } from '@/stores/game'
+import { useSettingsStore } from './stores/settings'
 const game = useGameStore()
+const settings = useSettingsStore()
 
 const keys = useMagicKeys()
 const debugging = ref(false)
@@ -14,7 +16,7 @@ whenever(keys.Ctrl_B, () => {
 </script>
 
 <template>
-  <div class="w-full h-full">
+  <div class="w-full h-full" :class="{ dark: settings.darkMode }">
     <div
       class="absolute bg-white top-10 left-10 h-3/4 overflow-auto border border-solid p-3 border-gray"
       v-if="debugging"

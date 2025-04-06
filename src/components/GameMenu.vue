@@ -14,10 +14,12 @@ defineProps({
 
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-start justify-center p-4 pt-[10vh]"
+    class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900 flex items-start justify-center p-4 pt-[10vh]"
   >
-    <div class="w-full max-w-md bg-white shadow-2xl rounded-2xl overflow-hidden">
-      <div class="bg-blue-600 text-white p-6 relative">
+    <div
+      class="w-full max-w-md dark:bg-neutral-800 dark:text-white shadow-2xl rounded-2xl overflow-hidden"
+    >
+      <div class="bg-blue-600 text-white dark:bg-blue-800 p-6 relative">
         <RouterLink
           v-if="route.name !== 'mainMenu'"
           :to="{ name: 'mainMenu' }"
