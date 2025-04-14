@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import MainMenu from '../views/MainMenu.vue'
 import NewGame from '@/views/NewGame.vue'
 import PlayGame from '@/views/PlayGame.vue'
+import History from '@/views/History.vue'
 import Settings from '@/views/Settings.vue'
 
 const router = createRouter({
@@ -26,6 +27,11 @@ const router = createRouter({
       path: '/new',
       name: 'new',
       component: NewGame,
+    },
+    {
+      path: '/history',
+      name: 'history',
+      component: History,
     },
   ],
 })

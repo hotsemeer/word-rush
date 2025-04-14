@@ -1,16 +1,20 @@
-import { clone, cloneDeep, flatten, flattenDeep, random } from "lodash-es";
+import { cloneDeep, flatten, random, uniqueId } from "lodash-es";
 import { GameState } from "./GameState";
 import { Team } from "./Team";
 import type { Turn } from "./Turn";
 import { words as allWords } from '@/assets/words/index'
 
 export class Game {
+  id: string
+  date: number
   words: number = 5
   teams: Team[] = []
   state: GameState = GameState.Score
   pointLimit: number = 20
 
   constructor() {
+    this.id = uniqueId()
+    this.date = Date.now()
     this.teams = [
       new Team('Team 1', ['Player 1', 'Player 2']),
       new Team('Team 2', ['Player 3', 'Player 4']),

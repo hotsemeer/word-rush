@@ -18,6 +18,9 @@ const game = useGameStore()
       <RouterLink :to="{ name: 'settings' }">
         <Button class="w-full">settings</Button>
       </RouterLink>
+      <RouterLink :to="{ name: 'history' }">
+        <Button class="w-full">Games</Button>
+      </RouterLink>
     </menu>
   </GameMenu>
 </template>
