@@ -6,6 +6,8 @@ import History from '@/views/History.vue'
 import Settings from '@/views/Settings.vue'
 
 const router = createRouter({
+  linkActiveClass: 'text-blue-500',
+  linkExactActiveClass: 'text-blue-500',
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {

@@ -7,6 +7,7 @@ import App from './App.vue'
 import router from './router'
 import { createI18n } from 'vue-i18n'
 import { Language } from './types/Language'
+import { MotionPlugin } from '@vueuse/motion'
 
 const app = createApp(App)
 
@@ -22,6 +23,7 @@ const i18n = createI18n({
 app.use(createPinia())
 app.use(router)
 app.use(i18n)
+app.use(MotionPlugin)
 
 app.mount('#app')
 

@@ -15,8 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, withDefaults } from 'vue'
-
 interface Props {
   variant?: 'primary' | 'secondary' | 'success' | 'danger'
   disabled?: boolean

@@ -14,7 +14,7 @@ defineProps({
 
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-start justify-center p-4 pt-[10vh]"
+    class="h-full flex items-center justify-center p-4"
   >
     <div class="w-full max-w-md bg-white shadow-2xl rounded-2xl overflow-hidden">
       <div class="bg-blue-600 text-white p-6 relative">
