@@ -9,7 +9,7 @@ const countdown = ref(3)
 const showCountdown = ref(false)
 const isAnimating = ref(true)
 const emit = defineEmits<{
-  next: () => void
+  next: []
 }>()
 
 function startGame() {
