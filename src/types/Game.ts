@@ -2,7 +2,7 @@ import { cloneDeep, flatten, random, uniqueId } from "lodash-es";
 import { GameState } from "./GameState";
 import { Team } from "./Team";
 import type { Turn } from "./Turn";
-import { words as allWords } from '@/assets/words/index'
+import { useGameStore } from "@/stores/game";
 
 export class Game {
   id: string
@@ -33,12 +33,12 @@ export class Game {
     return this.teams.reduce((players, team) => players.concat(team.players), [] as string[])
   }
 
-  nextState() {
+  async nextState() {
     const store = this
-    this.state = (function (state) {
+    this.state = await (async function (state) {
       switch (state) {
         case GameState.Score:
-          store.setupNextPlayer()
+          await store.setupNextPlayer()
           return GameState.Ready
         case GameState.Ready:
           return GameState.Playing
@@ -50,21 +50,22 @@ export class Game {
     })(this.state)
   }
 
-  setupNextPlayer() {
+  async setupNextPlayer() {
     const currentTeam = this.teams[this.turns.length % this.teams.length]
     const currentPlayer = currentTeam.players[Math.floor(this.turns.length / this.teams.length) % currentTeam.players.length]
 
     currentTeam.turns.push({
-      words: this.generateWords(5),
+      words: await this.generateWords(5),
       guessed: [],
       team: currentTeam,
       player: currentPlayer
     })
   }
 
-  generateWords(amount: number) {
+  async generateWords(amount: number) {
+    const store = useGameStore()
     const words = []
-    const remainingWords = cloneDeep(allWords)
+    const remainingWords = cloneDeep(await store.words)
 
     while (words.length < amount) {
       if (!remainingWords.length) {
