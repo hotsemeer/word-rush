@@ -1,0 +1,3 @@
+steps:
+  - name: 'gcr.io/cloud-builders/firebase' # This is a special Cloud Build image with the Firebase CLI
+    args: ['deploy', '--project=word-rush-49a0d', '--only=hosting']
