@@ -19,14 +19,6 @@
     ],
     "rewrites": [
       {
-        "source": "!/assets/**",
-        "destination": "/index.html"
-      },
-      {
-        "source": "/favicon.ico",
-        "destination": "/favicon.ico"
-      },
-      {
         "source": "**",
         "destination": "/index.html"
       }
