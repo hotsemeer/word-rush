@@ -10,7 +10,7 @@ const { t } = useI18n()
 
 <template>
   <GameMenu title="Word Rush">
-    <menu class="text-3xl">
+    <menu class="text-3xl h-full flex flex-col justify-center">
       <RouterLink :to="{ name: 'new' }">
         <Button class="w-full" variant="success">{{ t('new_game') }}</Button>
       </RouterLink>

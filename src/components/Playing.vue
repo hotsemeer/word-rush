@@ -6,11 +6,13 @@ import { useGameStore } from '@/stores/game'
 import { xor } from 'lodash-es'
 import { Check } from 'lucide-vue-next'
 import Button from '@/ui/Button.vue'
+import { useSettingsStore } from '@/stores/settings'
 
 const { currentGame } = useGameStore()
+const { secondsPerRound } = useSettingsStore()
 
-const duration = ref(3)
-const timeLeft = ref(duration.value)
+const duration = ref(secondsPerRound)
+const timeLeft = ref(secondsPerRound)
 
 function selectWord(word: string): void {
   currentGame!.currentTurn!.guessed = xor(guessed.value, [word])

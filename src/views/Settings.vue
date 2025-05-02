@@ -39,7 +39,9 @@ function langLabel(lang: string) {
     </div>
 
     <div>
-      <label for="language" class="block mb-2 text-sm font-medium text-gray-900"> {{ t('language') }} </label>
+      <label for="language" class="block mb-2 text-sm font-medium text-gray-900">
+        {{ t('language') }}
+      </label>
       <select
         id="language"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -53,13 +55,9 @@ function langLabel(lang: string) {
 
     <Counter v-model="settings.wordsPerRound" :min="4" :max="7" :label="t('wpr')" />
 
-    <Counter
-      v-model="settings.pointsPerGame"
-      :min="10"
-      :max="50"
-      :step="5"
-      :label="t('ppg')"
-    />
+    <Counter v-model="settings.pointsPerGame" :min="10" :max="50" :step="5" :label="t('ppg')" />
+
+    <Counter v-model="settings.secondsPerRound" :min="5" :max="60" :step="5" :label="t('spr')" />
   </GameMenu>
 </template>
 
@@ -69,13 +67,15 @@ function langLabel(lang: string) {
       "settings": "Settings",
       "language": "Language",
       "wpr": "Words per round",
-      "ppg": "Points per game"
+      "ppg": "Points per game",
+      "spr": "Seconds per round"
     },
     "nl-NL": {
       "settings": "Instellingen",
       "language": "Taal",
       "wpr": "Woorden per ronde",
-      "ppg": "Punten per potje"
+      "ppg": "Punten per potje",
+      "spr": "Secondes per ronde"
     }
   }
 </i18n>

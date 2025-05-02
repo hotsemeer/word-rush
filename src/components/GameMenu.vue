@@ -13,10 +13,10 @@ defineProps({
 </script>
 
 <template>
-  <div
-    class="h-full flex items-center justify-center p-4"
-  >
-    <div class="w-full max-w-md bg-white shadow-2xl rounded-2xl overflow-hidden">
+  <div class="h-full flex items-center justify-center">
+    <div
+      class="w-full h-full md:h-3/4 max-w-md bg-white shadow-2xl md:rounded-2xl overflow-hidden flex flex-col"
+    >
       <div class="bg-blue-600 text-white p-6 relative">
         <RouterLink
           v-if="route.name !== 'mainMenu'"
@@ -28,7 +28,7 @@ defineProps({
         <h1 class="text-3xl text-center font-serif">{{ title }}</h1>
       </div>
 
-      <div class="p-6 space-y-4">
+      <div class="p-6 space-y-4 grow flex flex-col">
         <slot></slot>
       </div>
     </div>
