@@ -1,3 +1,17 @@
 steps:
-  - name: 'gcr.io/cloud-builders/firebase' # This is a special Cloud Build image with the Firebase CLI
-    args: ['deploy', '--project=word-rush-49a0d', '--only=hosting']
+  # Step 1: Install dependencies using pnpm
+  - name: 'node:latest' # Or another Node image with pnpm installed
+    entrypoint: 'pnpm'
+    args: ['install']
+    dir: '.' # Specify your project's root directory if needed
+
+  # Step 2: Run the build script
+  - name: 'node:latest' # Use the same or compatible Node image
+    entrypoint: 'pnpm'
+    args: ['run', 'build']
+    dir: '.' # Specify your project's root directory if needed
+
+  # Step 3: Deploy to Firebase Hosting
+  # Make sure the --public flag points to the directory where 'pnpm run build' outputs files
+  - name: 'gcr.io/cloud-builders/firebase'
+    args: ['deploy', '--project=word-rush-49a0d', '--only=hosting', '--public=dist'] # Adjust 'dist' to your actual build output directory
