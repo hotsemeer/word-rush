@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import type { Game } from '@/types/Game'
 import type { Team } from '@/types/Team'
-import { Calendar, ChevronDown, Trophy, Users } from 'lucide-vue-next'
+import { Calendar, ChevronDown } from 'lucide-vue-next'
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import TeamScore from './TeamScore.vue'
+
+const { t } = useI18n()
 
 const { game } = defineProps<{
   game: Game
@@ -12,7 +16,7 @@ const expanded = ref(false)
 
 function isWinningTeam(team: Team) {
   const maxPoints = Math.max(...game.teams.map((t) => t.points))
-  return team.points === maxPoints
+  return team.points === maxPoints && game!.teams.filter((t) => t.points === maxPoints).length === 1
 }
 
 const date = new Intl.DateTimeFormat('nl-NL', {
@@ -46,31 +50,26 @@ const date = new Intl.DateTimeFormat('nl-NL', {
 
     <div v-if="expanded" class="border-t border-gray-200 p-4">
       <div class="space-y-4">
-        <div
+        <TeamScore
           v-for="(team, index) in game.teams"
+          :team="team"
           :key="index"
-          class="rounded-lg p-4 border-solid"
-          :class="[isWinningTeam(team) ? 'border-2 border-green-500' : 'border border-gray-200']"
-        >
-          <div class="flex items-center justify-between mb-3">
-            <div class="flex items-center">
-              <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mr-3">
-                <Users :size="16" class="text-gray-700" />
-              </div>
-              <span class="text-blue-600 font-bold text-lg">{{ team.name }}</span>
-            </div>
-            <div class="flex items-center">
-              <Trophy v-if="isWinningTeam(team)" class="text-yellow-500 mr-1" :size="16" />
-              <span class="font-bold text-lg text-gray-800">{{ team.points }} pts</span>
-            </div>
-          </div>
-
-          <div class="text-sm text-gray-600">
-            <span class="font-medium">Players: </span>
-            {{ team.players.join(', ') }}
-          </div>
-        </div>
+          :is-winning="isWinningTeam(team)"
+        />
       </div>
     </div>
   </div>
 </template>
+
+<i18n>
+  {
+    "en-US": {
+      "pts": "Pts",
+      "players": "Players"
+    },
+    "nl-NL": {
+      "pts": "Ptn",
+      "players": "Spelers"
+    },
+  }
+</i18n>

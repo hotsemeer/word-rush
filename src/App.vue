@@ -3,15 +3,11 @@ import { RouterView } from 'vue-router'
 import { useGameStore } from './stores/game'
 import { History, Play, Settings } from 'lucide-vue-next'
 import router from './router'
-import { useMotion } from '@vueuse/motion'
-import { templateRef } from '@vueuse/core'
-import { ref } from 'vue'
 
-const nav = templateRef('bottom-nav')
 const game = useGameStore()
 </script>
 <template>
-  <div class="w-full h-full flex flex-col bg-gradient-to-br from-blue-50 to-blue-100">
+  <div class="w-screen h-screen flex flex-col bg-gradient-to-br from-blue-50 to-blue-100">
     <div class="grow relative overflow-auto">
       <RouterView />
     </div>

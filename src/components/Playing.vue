@@ -7,9 +7,11 @@ import { xor } from 'lodash-es'
 import { Check } from 'lucide-vue-next'
 import Button from '@/ui/Button.vue'
 import { useSettingsStore } from '@/stores/settings'
+import { useI18n } from 'vue-i18n'
 
 const { currentGame } = useGameStore()
 const { secondsPerRound } = useSettingsStore()
+const { t } = useI18n()
 
 const duration = ref(secondsPerRound)
 const timeLeft = ref(secondsPerRound)
@@ -36,14 +38,14 @@ const guessed = computed(() => currentGame!.currentTurn!.guessed)
 </script>
 
 <template>
-  <GameMenu title="Guess">
+  <GameMenu :title="t('guess')">
     <div>
       <ProgressBar :progress="(timeLeft / duration) * 100" />
       <div class="mb-5 mt-2">
         <span v-if="timeLeft">
           {{ timeLeft }}
         </span>
-        <span v-else>Time's up!</span>
+        <span v-else>{{ t('times_up') }}</span>
       </div>
       <div
         v-for="word in words"
@@ -60,9 +62,24 @@ const guessed = computed(() => currentGame!.currentTurn!.guessed)
       </div>
 
       <div class="flex justify-between">
-        <Button v-if="!timeLeft" @click="currentGame?.nextState()">Next</Button>
+        <Button v-if="!timeLeft" @click="currentGame?.nextState()">{{ t('next') }}</Button>
         <span>{{ guessed.length }}/{{ words.length }}</span>
       </div>
     </div>
   </GameMenu>
 </template>
+
+<i18n>
+  {
+    "en-US": {
+      "guess": "Guess",
+      "times_up": "Time's up!",
+      "next": "Next"
+    },
+    "nl-NL": {
+      "guess": "Raad",
+      "times_up": "Tijd is voorbij!",
+      "next": "Volgende"
+    },
+  }
+</i18n>

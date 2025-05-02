@@ -6,8 +6,10 @@ import type { Team } from '@/types/Team'
 import { User, X, Plus } from 'lucide-vue-next'
 import Button from '../ui/Button.vue'
 import { ref, type Ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const game = useGameStore()
+const { t } = useI18n()
 const editingTeam: Ref<Team | null> = ref(null)
 
 function start() {
@@ -17,8 +19,8 @@ function start() {
 </script>
 
 <template>
-  <GameMenu title="New game">
-    <div class="text-3xl flex flex-col justify-between h-full">
+  <GameMenu :title="t('new_game')">
+    <div class="text-3xl flex flex-col justify-between h-full overflow-auto">
       <div>
         <div
           class="bg-blue-50 hover:bg-blue-100 rounded-lg p-4 flex flex-col shadow-sm mb-5 cursor-pointer"
@@ -85,16 +87,33 @@ function start() {
               class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors flex items-center justify-center space-x-2"
             >
               <Plus />
-              <span>New Player</span>
+              <span>{{ t('add_player') }}</span>
             </button>
           </div>
         </div>
       </div>
 
       <div class="space-y-4">
-        <Button class="w-full" @click="game.newGame.addTeam()"> Add Team </Button>
-        <Button class="w-full" @click="start" variant="success"> Start Game </Button>
+        <Button class="w-full" @click="game.newGame.addTeam()"> {{ t('add_team') }} </Button>
+        <Button class="w-full" @click="start" variant="success"> {{ t('start') }} </Button>
       </div>
     </div>
   </GameMenu>
 </template>
+
+<i18n>
+  {
+    "en-US": {
+      "new_game": "New game",
+      "add_team": "Add team",
+      'start': 'Start game',
+      'add_player': 'New player'
+    },
+    "nl-NL": {
+      "new_game": "Nieuw spel",
+      "add_team": "Nieuw team",
+      'start': 'Start spel',
+      'add_player': 'Nieuwe speler'
+    },
+  }
+</i18n>
