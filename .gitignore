@@ -29,6 +29,7 @@ dev-dist
 *.sw?
 
 *.tsbuildinfo
+.firebase
 
 test-results/
 playwright-report/
