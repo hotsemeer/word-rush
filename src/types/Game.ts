@@ -1,8 +1,9 @@
-import { cloneDeep, flatten, random, uniqueId } from "lodash-es";
+import { cloneDeep, flatten, random, uniqueId, zip } from "lodash-es";
 import { GameState } from "./GameState";
 import { Team } from "./Team";
 import type { Turn } from "./Turn";
 import { useGameStore } from "@/stores/game";
+import { useSettingsStore } from "@/stores/settings";
 
 export class Game {
   id: string
@@ -26,7 +27,8 @@ export class Game {
   }
 
   get turns(): Turn[] {
-    return flatten(this.teams.map(t => t.turns))
+    // Make sure turns are in the correct order by zipping them
+    return flatten(zip(...this.teams.map(t => t.turns))).filter(t => t !== undefined)
   }
 
   get players() {
@@ -53,13 +55,17 @@ export class Game {
   async setupNextPlayer() {
     const currentTeam = this.teams[this.turns.length % this.teams.length]
     const currentPlayer = currentTeam.players[Math.floor(this.turns.length / this.teams.length) % currentTeam.players.length]
+    const { wordsPerRound } = useSettingsStore()
 
-    currentTeam.turns.push({
-      words: await this.generateWords(5),
+    const turn = {
+      words: await this.generateWords(wordsPerRound),
       guessed: [],
       team: currentTeam,
       player: currentPlayer
-    })
+    }
+
+    currentTeam.turns.push(turn)
+    console.log(turn, this.currentTurn)
   }
 
   async generateWords(amount: number) {

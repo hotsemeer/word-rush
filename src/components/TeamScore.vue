@@ -39,10 +39,12 @@ defineProps<{
 <i18n>
   {
     "en-US": {
-      "pts": "Pts"
+      "pts": "Pts",
+      "players": "Players"
     },
     "nl-NL": {
-      "pts": "Ptn"
+      "pts": "Ptn",
+      "players": "Spelers"
     },
   }
 </i18n>
