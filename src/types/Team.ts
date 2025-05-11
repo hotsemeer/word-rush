@@ -1,7 +1,8 @@
-import { shuffle } from "lodash-es"
+import { shuffle, uniqueId } from "lodash-es"
 import type { Turn } from "./Turn"
 
 export class Team {
+  id: string
   name: string
   players: string[]
   turns: Turn[] = []
@@ -11,6 +12,7 @@ export class Team {
   }
 
   constructor(name: string, players: string[]) {
+    this.id = uniqueId()
     this.name = name
     this.players = players
   }

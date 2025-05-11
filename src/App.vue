@@ -7,7 +7,7 @@ import router from './router'
 const game = useGameStore()
 </script>
 <template>
-  <div class="w-screen h-screen flex flex-col bg-gradient-to-br from-blue-50 to-blue-100">
+  <div class="w-dvh h-dvh flex flex-col bg-gradient-to-br from-blue-50 to-blue-100">
     <div class="grow relative overflow-auto">
       <RouterView />
     </div>

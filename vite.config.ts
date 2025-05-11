@@ -27,7 +27,30 @@ export default defineConfig({
       manifest: {
         name: 'Word Rush',
         description: 'Challenge your friends and find out who\'s the smartest',
-        theme_color: '#fff'
+        theme_color: '#fff',
+        short_name: 'Word Rush',
+        start_url: '/',
+        display: 'fullscreen',
+        background_color: '#2563EB',
+        orientation: 'portrait',
+        icons: [
+          {
+            src: 'android-chrome-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: 'android-chrome-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          },
+          {
+            src: 'android-chrome-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable'
+          }
+        ]
       },
       registerType: 'autoUpdate',
       devOptions: {

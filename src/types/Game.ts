@@ -65,7 +65,6 @@ export class Game {
     }
 
     currentTeam.turns.push(turn)
-    console.log(turn, this.currentTurn)
   }
 
   async generateWords(amount: number) {

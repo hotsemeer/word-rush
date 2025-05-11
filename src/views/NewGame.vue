@@ -25,7 +25,7 @@ function start() {
         <div
           class="bg-blue-50 hover:bg-blue-100 rounded-lg p-4 flex flex-col shadow-sm mb-5 cursor-pointer"
           v-for="(team, teamIndex) in game.newGame.teams"
-          :key="team.name"
+          :key="team.id"
           @click="editingTeam = team"
         >
           <div class="flex items-center justify-between">
