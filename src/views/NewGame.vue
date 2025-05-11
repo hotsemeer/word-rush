@@ -7,6 +7,7 @@ import { User, X, Plus } from 'lucide-vue-next'
 import Button from '../ui/Button.vue'
 import { ref, type Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { vOnClickOutside } from '@vueuse/components'
 
 const game = useGameStore()
 const { t } = useI18n()
@@ -15,6 +16,11 @@ const editingTeam: Ref<Team | null> = ref(null)
 function start() {
   game.start()
   router.push({ name: 'play' })
+}
+
+function stopEditing() {
+  console.log('b')
+  editingTeam.value = null
 }
 </script>
 
@@ -61,7 +67,11 @@ function start() {
             </button>
           </div>
 
-          <div v-if="editingTeam === team" class="p-4 space-y-4 border border-blue-100 mt-3">
+          <div
+            v-if="editingTeam === team"
+            class="p-4 space-y-4 border border-blue-100 mt-3"
+            v-on-click-outside="stopEditing"
+          >
             <div
               v-for="(player, index) in team.players"
               :key="index"

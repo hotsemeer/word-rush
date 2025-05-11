@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@types/lodash-es": "^4.17.12",
+    "@vueuse/components": "^13.1.0",
     "@vueuse/core": "^13.0.0",
     "@vueuse/motion": "^3.0.3",
     "lodash-es": "^4.17.21",
