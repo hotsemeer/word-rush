@@ -13,6 +13,10 @@ const currentTurnIndex = ref(0)
 const previousTurnIndex = ref(0)
 const isAnimating = ref(false)
 const slideDirection = ref('') // 'left' or 'right'
+const isDragTriggered = ref(false)
+const dragStartTime = ref(0)
+const dragVelocity = ref(0)
+const showPreviousCard = ref(false)
 
 const cardRef = useTemplateRef('cardRef')
 const isDragging = ref(false)
@@ -24,22 +28,26 @@ const dragThreshold = 50 // Minimum pixels to drag to trigger turn change
 watch(currentTurnIndex, (newVal, oldVal) => {
   previousTurnIndex.value = oldVal
   slideDirection.value = newVal > oldVal ? 'left' : 'right'
+  showPreviousCard.value = true
   isAnimating.value = true
 
-  // Reset animation state after transition completes
   setTimeout(() => {
     isAnimating.value = false
-  }, 350) // Slightly longer than the CSS transition
+    showPreviousCard.value = false
+  }, 350)
 })
 
 // Computed value for the card translation during drag
 const cardTranslation = computed(() => {
-  if (!isDragging.value && !isAnimating.value) return 'translate(0, 0)'
-  if (isDragging.value) return `translate(${currentX.value - startX.value}px, 0)`
-  return 'translate(0, 0)' // Default position
+  if (isDragging.value) {
+    return `translate(${currentX.value - startX.value}px, 0)`
+  }
+  if (isAnimating.value && isDragTriggered.value) {
+    return `translate(${currentX.value}px, 0)`
+  }
+  return 'translate(0, 0)'
 })
 
-// Computed value for the card transition
 const cardTransition = computed(() => {
   return isDragging.value ? 'none' : 'transform 0.3s ease-out'
 })
@@ -58,16 +66,17 @@ function goToNextTurn() {
 
 // Touch & mouse handlers for dragging
 function handleDragStart(event: MouseEvent | TouchEvent) {
-  // Don't start new drag during animation
   if (isAnimating.value) return
 
   isDragging.value = true
-  currentX.value = event instanceof TouchEvent ? event.touches[0].clientX : event.clientX
+  startX.value = event instanceof TouchEvent ? event.touches[0].clientX : event.clientX
   currentX.value = startX.value
-  document.addEventListener('mousemove', handleDragMove)
-  document.addEventListener('touchmove', handleDragMove)
-  document.addEventListener('mouseup', handleDragEnd)
-  document.addEventListener('touchend', handleDragEnd)
+  dragStartTime.value = Date.now()
+
+  document.addEventListener('mousemove', handleDragMove as EventListener)
+  document.addEventListener('touchmove', handleDragMove as EventListener)
+  document.addEventListener('mouseup', handleDragEnd as EventListener)
+  document.addEventListener('touchend', handleDragEnd as EventListener)
 }
 
 function handleDragMove(event: MouseEvent | TouchEvent) {
@@ -75,28 +84,56 @@ function handleDragMove(event: MouseEvent | TouchEvent) {
   currentX.value = event instanceof TouchEvent ? event.touches[0].clientX : event.clientX
 }
 
-function handleDragEnd() {
+function handleDragEnd(event: MouseEvent | TouchEvent) {
   if (!isDragging.value) return
 
-  const dragDistance = currentX.value - startX.value
+  const endX = event instanceof TouchEvent ? event.changedTouches[0].clientX : event.clientX
+  const dragDistance = endX - startX.value
+  const dragDuration = (Date.now() - dragStartTime.value) / 1000 // in seconds
+  dragVelocity.value = dragDistance / dragDuration
 
-  // If dragged far enough, change turn
-  if (Math.abs(dragDistance) >= dragThreshold) {
-    if (dragDistance > 0) {
-      goToPreviousTurn()
-    } else {
-      goToNextTurn()
+  const isFastSwipe = Math.abs(dragVelocity.value) > 1000
+  const isFarSwipe = Math.abs(dragDistance) >= dragThreshold
+
+  if (isFarSwipe || isFastSwipe) {
+    const goingRight = dragDistance > 0
+    const goingLeft = dragDistance < 0
+
+    if (
+      (goingRight && currentTurnIndex.value === 0) ||
+      (goingLeft && currentTurnIndex.value === turns.length - 1)
+    ) {
+      // Invalid swipe (out of bounds)
+      currentX.value = 0
+      isDragging.value = false
+      return
     }
+
+    isDragTriggered.value = true
+    isAnimating.value = true
+    slideDirection.value = goingRight ? 'right' : 'left'
+
+    // Animate card toss
+    currentX.value += goingRight ? 300 : -300
+
+    setTimeout(() => {
+      if (goingRight) {
+        goToPreviousTurn()
+      } else {
+        goToNextTurn()
+      }
+      currentX.value = 0
+      startX.value = 0
+      isAnimating.value = false
+    }, 300)
   }
 
-  // Reset drag state
   isDragging.value = false
 
-  // Clean up event listeners
-  document.removeEventListener('mousemove', handleDragMove)
-  document.removeEventListener('touchmove', handleDragMove)
-  document.removeEventListener('mouseup', handleDragEnd)
-  document.removeEventListener('touchend', handleDragEnd)
+  document.removeEventListener('mousemove', handleDragMove as EventListener)
+  document.removeEventListener('touchmove', handleDragMove as EventListener)
+  document.removeEventListener('mouseup', handleDragEnd as EventListener)
+  document.removeEventListener('touchend', handleDragEnd as EventListener)
 }
 
 // Set up and clean up event listeners
@@ -227,7 +264,7 @@ onBeforeUnmount(() => {
 
       <!-- Previous card (visible during animation) -->
       <div
-        v-if="isAnimating"
+        v-if="showPreviousCard"
         class="bg-white rounded-lg border border-gray-200 p-4 absolute inset-0"
         :class="{
           'slide-out-to-right': slideDirection === 'right',

@@ -5,7 +5,7 @@ import { i18n } from '@/main'
 
 export const useSettingsStore = defineStore('settings', () => {
   const wordsPerRound: Ref<number> = ref(5)
-  const secondsPerRound: Ref<number> = ref(30)
+  const secondsPerRound: Ref<number> = ref(1)
   const pointsPerGame: Ref<number> = ref(20)
   const darkMode: Ref<Boolean> = ref(window.matchMedia('(prefers-color-scheme: dark)').matches)
   const language = computed<Language>({
