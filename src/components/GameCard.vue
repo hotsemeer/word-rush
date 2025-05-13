@@ -3,10 +3,8 @@ import type { Game } from '@/types/Game'
 import type { Team } from '@/types/Team'
 import { Calendar, ChevronDown } from 'lucide-vue-next'
 import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
 import TeamScore from './TeamScore.vue'
-
-const { t } = useI18n()
+import TurnSlider from './turn-slider/TurnSlider.vue'
 
 const { game } = defineProps<{
   game: Game
@@ -27,8 +25,8 @@ const date = new Intl.DateTimeFormat('nl-NL', {
 </script>
 
 <template>
-  <div class="bg-gray-50">
-    <div class="rounded flex justify-between border-b border-solid border-b-gray-200">
+  <div class="bg-gray-50 rounded shadow">
+    <div class="flex justify-between border-b border-solid border-b-gray-200">
       <div
         class="p-4 flex items-center justify-between cursor-pointer w-full"
         @click="expanded = !expanded"
@@ -49,7 +47,8 @@ const date = new Intl.DateTimeFormat('nl-NL', {
     </div>
 
     <div v-if="expanded" class="border-t border-gray-200 p-4">
-      <div class="space-y-4">
+      <!-- Team scores -->
+      <div class="space-y-4 mb-6">
         <TeamScore
           v-for="(team, index) in game.teams"
           :team="team"
@@ -57,19 +56,9 @@ const date = new Intl.DateTimeFormat('nl-NL', {
           :is-winning="isWinningTeam(team)"
         />
       </div>
+
+      <!-- Turn slider UI -->
+      <TurnSlider :turns="game.turns" />
     </div>
   </div>
 </template>
-
-<i18n>
-  {
-    "en-US": {
-      "pts": "Pts",
-      "players": "Players"
-    },
-    "nl-NL": {
-      "pts": "Ptn",
-      "players": "Spelers"
-    },
-  }
-</i18n>
