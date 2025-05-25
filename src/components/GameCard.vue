@@ -10,7 +10,7 @@ const { game } = defineProps<{
   game: Game
 }>()
 
-const expanded = ref(false)
+const expanded = defineModel<boolean>('expanded')
 
 function isWinningTeam(team: Team) {
   const maxPoints = Math.max(...game.teams.map((t) => t.points))
@@ -21,6 +21,11 @@ const date = new Intl.DateTimeFormat('nl-NL', {
   day: 'numeric',
   month: 'long',
   year: 'numeric',
+})
+
+const time = new Intl.DateTimeFormat('nl-NL', {
+  hour: 'numeric',
+  minute: 'numeric',
 })
 </script>
 
@@ -33,10 +38,13 @@ const date = new Intl.DateTimeFormat('nl-NL', {
       >
         <div class="flex items-center">
           <Calendar class="text-blue-600 mr-3" :size="20" />
-          <span class="text-gray-700 font-medium">{{ date.format(game.date) }}</span>
+          <div class="flex flex-col">
+            <span class="text-gray-700 font-medium">{{ date.format(game.date) }}</span>
+            <span class="text-gray-500 text-xs ml-3">{{ time.format(game.date) }}</span>
+          </div>
         </div>
         <div class="flex items-center">
-          <span class="text-gray-600 mr-2">{{ game.teams.length }} teams</span>
+          <span class="text-gray-600 mr-2">{{ game.teams.map((t) => t.points).join(' - ') }}</span>
           <ChevronDown
             class="text-gray-500 transition-transform"
             :class="{ 'transform rotate-180': expanded }"

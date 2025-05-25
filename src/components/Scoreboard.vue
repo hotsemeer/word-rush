@@ -26,7 +26,7 @@ function isWinningTeam(team: Team) {
 <template>
   <GameMenu :title="t('score')">
     <div class="text-xl flex flex-col justify-between h-full">
-      <div class="space-y-4">
+      <div class="space-y-4 mb-10">
         <TeamScore
           v-for="(team, index) in currentGame!.teams"
           :team="team"

@@ -1,25 +1,31 @@
-import { cloneDeep, flatten, random, uniqueId, zip } from "lodash-es";
+import { cloneDeep, flatten, random, zip } from "lodash-es";
 import { GameState } from "./GameState";
 import { Team } from "./Team";
 import type { Turn } from "./Turn";
 import { useGameStore } from "@/stores/game";
 import { useSettingsStore } from "@/stores/settings";
+import uniqid from 'uniqid'
 
 export class Game {
   id: string
   date: number
-  words: number = 5
   teams: Team[] = []
   state: GameState = GameState.Score
   pointLimit: number = 20
 
-  constructor() {
-    this.id = uniqueId()
-    this.date = Date.now()
-    this.teams = [
-      new Team('Team 1', ['Player 1', 'Player 2']),
-      new Team('Team 2', ['Player 3', 'Player 4']),
-    ]
+  constructor(gameData: Game | undefined = undefined) {
+    if (gameData) {
+      Object.assign(this, gameData)
+      this.id = gameData.id
+      this.date = gameData.date
+    } else {
+      this.id = uniqid()
+      this.date = Date.now()
+      this.teams = [
+        new Team('Team 1', ['Player 1', 'Player 2']),
+        new Team('Team 2', ['Player 3', 'Player 4']),
+      ]
+    }
   }
 
   get currentTurn() {

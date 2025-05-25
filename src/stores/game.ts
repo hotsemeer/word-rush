@@ -1,20 +1,43 @@
 import { computed, ref, type Ref } from 'vue'
-import { defineStore } from 'pinia'
+import { defineStore, skipHydrate } from 'pinia'
 import { Game } from '@/types/Game'
-import type { Team } from '@/types/Team'
-import { get } from '@/utils/localStorage'
+import { Team } from '@/types/Team'
 import { useSettingsStore } from './settings'
 import { flattenWords } from '@/utils/flattenWords'
+import { useStorage } from '@vueuse/core'
+import { deserializeGame, serializeGame } from '@/utils/Serialization'
 
 export const useGameStore = defineStore('game', () => {
-  const currentGame: Ref<Game | null> = ref(null)
+  const currentGameId: Ref<string | null> = useStorage('currentGameId', null)
   const newGame: Ref<Game> = ref(new Game())
-  const games: Ref<Game[]> = ref(get("games") ?? [])
+
+  const games: Ref<Game[]> = useStorage('games', [], localStorage, {
+    serializer: {
+      read: (v: string) => {
+        if (!v) return []
+
+        try {
+          const parsed = JSON.parse(v)
+          return parsed.map((gameData: Game) => deserializeGame(gameData))
+        } catch (error) {
+          return []
+        }
+      },
+      write: (v: Game[]) => {
+        try {
+          const serialized = v.map(game => serializeGame(game))
+          return JSON.stringify(serialized)
+        } catch (error) {
+          return JSON.stringify([])
+        }
+      }
+    }
+  })
 
   function start() {
     newGame.value.teams.forEach((team: Team) => team.shuffle())
-    currentGame.value = newGame.value
-    games.value.push(currentGame.value)
+    currentGameId.value = newGame.value.id
+    games.value.push(newGame.value)
     newGame.value = new Game()
   }
 
@@ -31,10 +54,12 @@ export const useGameStore = defineStore('game', () => {
     return flattenWords(categories)
   })
 
+  const currentGame = computed(() => games.value.find(g => g.id === currentGameId.value) || null)
+
   return {
     currentGame,
     newGame,
-    games,
+    games: skipHydrate(games),
     words,
     start,
   }

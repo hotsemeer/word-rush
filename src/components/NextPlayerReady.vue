@@ -7,24 +7,13 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 const { currentGame } = useGameStore()
 const playerName = ref(currentGame!.currentTurn?.player || '')
-const countdown = ref(3)
-const showCountdown = ref(false)
 const isAnimating = ref(true)
 const emit = defineEmits<{
   next: []
 }>()
 
 function startGame() {
-  showCountdown.value = true
-  const timer = setInterval(() => {
-    countdown.value--
-    if (countdown.value <= 0) {
-      clearInterval(timer)
-      setTimeout(() => {
-        emit('next')
-      }, 500)
-    }
-  }, 1000)
+  emit('next')
 }
 
 onMounted(() => {
@@ -48,7 +37,7 @@ onMounted(() => {
         </div>
       </div>
 
-      <div v-if="!showCountdown" class="flex flex-col items-center space-y-5">
+      <div class="flex flex-col items-center space-y-5">
         <p class="text-gray-600 text-center">
           {{ t('your_turn') }}<br />
           {{ t('ready_to_play') }}
@@ -60,13 +49,6 @@ onMounted(() => {
         >
           {{ t('im_ready') }}
         </button>
-      </div>
-
-      <div v-else class="flex flex-col items-center">
-        <div class="text-5xl font-bold text-blue-600 animate-pulse">
-          {{ countdown }}
-        </div>
-        <p class="text-gray-600 mt-2">{{ t('starting') }}</p>
       </div>
     </div>
   </GameMenu>
